@@ -40,7 +40,7 @@ def send_request(target_url, target_name):
         tree = bs(r.text, 'html.parser')  # Parse into tree
         request_object = dict()
         for link in tree.find_all('a'):  # find all "a" anchor elements.
-            request_object[link.get('href')] = r.status_code
+            request_object[link.get('href')] = list([0, r.status_code, 'None', 'None'])
         write_to_file(request_object, target_name)
     except Exception as error:
         my_logger.error(f'[{ __name__ }]: Unable to send request for "{target_url}"')
@@ -103,3 +103,5 @@ def init_parse(target_url, target_name):
         my_logger.debug(f'[{__name__}]: init_parse failed for url: "{target_url}"')
         my_logger.debug(f'[{__name__}]: init_parse failed for target_name: "{target_name}"')
         return False
+
+

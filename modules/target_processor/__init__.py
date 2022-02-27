@@ -22,7 +22,11 @@ def target(target_list):
     except Exception as error:
         my_logger.error(f'[{ __name__ }]: .target not able target specific url: "{error}"')
         my_logger.error(f'[{ __name__ }]: .target not able target specific url: "{error}"')
+    return target_list
 
+def stage_two(target_list):
+    for x in target_list:
+        x.parse_self_responses()
 
 def run(target_file):
     try:
@@ -32,7 +36,7 @@ def run(target_file):
             return False
         else:
             response = target(target_list)
-
+            stage_two(target_list)
         my_logger.debug(f'[{ __name__ }]: .run ran and completed')
         return response
     except Exception as error:

@@ -10,17 +10,5 @@
     "FILTERS" : "['.photosOfYourMom', '.jpg', '.css']",
     "THREADS" : 1,
     "PRIORITY_LEVEL" : 0
-    },
-  "https://www.geeksforgeeks.org/":{
-    "FULL_TARGET_URL" : "https://www.geeksforgeeks.org/",
-    "FILTERS" : "['.photosOfYourMom', '.jpg', '.css']",
-    "THREADS" : 1,
-    "PRIORITY_LEVEL" : 0
-    },
-  "https://www.twitch.tv":{
-    "FULL_TARGET_URL" : "https://www.twitch.tv",
-    "FILTERS" : "['.photosOfYourMom', '.jpg', '.css']",
-    "THREADS" : 1,
-    "PRIORITY_LEVEL" : 0
     }
 }
