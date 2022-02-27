@@ -3,6 +3,8 @@ import requests
 import json
 from os.path import exists
 import modules.myLogger as myLogger
+import validators
+
 '''
 url = 'http://example.com'
 r = requests.get(url)
@@ -10,6 +12,16 @@ tree = bs(r.text, 'html.parser') # Parse into tree
 for link in tree.find_all('a'): # find all "a" anchor elements.
     print(f"{link.get('href')} -> {link.text}")
 '''
+
+myLogger.configFile("./logs/request_mapper.log", "debug")
+
+
+def validateUrl(urlToValidate):
+    try:
+        return validators.url(urlToValidate)
+    except Exception as error:
+        myLogger.error(f'[{ __name__ }]: validateUrl caught error: "{error}"')
+        return False
 
 def merge(dict1, dict2):
     try:
@@ -22,12 +34,11 @@ def merge(dict1, dict2):
 
 def sendRequest(target_url, target_name):
     try:
-        myLogger.configFile("./logs/extensionBuilder.log", "debug")
         r = requests.get(target_url)
         tree = bs(r.text, 'html.parser')  # Parse into tree
         requestObj = dict()
         for link in tree.find_all('a'):  # find all "a" anchor elements.
-            requestObj[link.get('href')] = 0
+            requestObj[link.get('href')] = r.status_code
         writeToFile(requestObj, target_name)
     except Exception as error:
         myLogger.error(f'[{ __name__ }]: Unable to send request for "{target_url}"')
@@ -83,4 +94,10 @@ def writeToFile(objectToWrite_new, fileName):
         myLogger.error(f'[{__name__}]: writeToFile caught error: "{error}"')
 
 
-
+def initParse(target_url, target_name):
+    if(validateUrl(target_url)):
+        return sendRequest(target_url, target_name)
+    else:
+        myLogger.debug(f'[{__name__}]: initParse failed for url: "{target_url}"')
+        myLogger.debug(f'[{__name__}]: initParse failed for target_name: "{target_name}"')
+        return False

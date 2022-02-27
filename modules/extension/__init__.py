@@ -1,5 +1,8 @@
 import re
 from urllib.parse import urlparse
+import modules.myLogger as myLogger
+
+myLogger.configFile("./logs/creating_new_extension_instance.log", "debug")
 
 class ExtensionInstance:
     #FILTERS = [".jpg", ".gif", ".png", ".css"]
@@ -12,16 +15,23 @@ class ExtensionInstance:
     PRIORITY_LEVEL = 0
 
     def __init__(self, targetUrl, filters, threads, priorityLevel):
-        self.setTarget(targetUrl)
-        self.setName(targetUrl)
-        self.createStorageFileDir()
-        self.setFilters(filters)
-        self.createCurrentUrl()
-        self.setThreads(threads)
-        self.setPriorityLevel(priorityLevel)
+        try:
+            self.setTarget(targetUrl)
+            self.setName(targetUrl)
+            self.createStorageFileDir()
+            self.setFilters(filters)
+            self.createCurrentUrl()
+            self.setThreads(threads)
+            self.setPriorityLevel(priorityLevel)
+        except Exception as error:
+            myLogger.error(f'[{ __name__ }]: Not able to create new extension instance: "{error}"')
+
 
     def __repr__(self):
-        return(f'[{self.getName()}][URL]:{self.getTarget()}')
+        try:
+            return(f'[{self.getName()}][URL]:{self.getTarget()}')
+        except Exception as error:
+            myLogger.error(f'[{ __name__ }]: Not able to print extension instance: "{error}"')
 
 # BELOW THIS ARE JUST SETTERS, GETTERS AND CREATES FOR DATA FOR THE EXTENSION IT SELF
 
