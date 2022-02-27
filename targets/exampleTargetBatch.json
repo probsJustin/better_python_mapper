@@ -1,0 +1,14 @@
+{
+  "www.example.com":{
+    "FULL_TARGET_URL" : "https://www.example.com",
+    "FILTERS" : "['.photosOfYourMom']",
+    "THREADS" : 1,
+    "PRIORITY_LEVEL" : 0
+    },
+  "target_domain_here":{
+    "FULL_TARGET_URL" : "https://www.example.com",
+    "FILTERS" : "['.photosOfYourMom', '.jpg', '.css']",
+    "THREADS" : 1,
+    "PRIORITY_LEVEL" : 0
+    }
+}
