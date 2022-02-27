@@ -1,11 +1,12 @@
 import re
 from urllib.parse import urlparse
-import modules.myLogger as myLogger
+import modules.my_logger as my_logger
 
-myLogger.configFile("./logs/creating_new_extension_instance.log", "debug")
+my_logger.config_file("./logs/creating_new_extension_instance.log", "debug")
+
 
 class ExtensionInstance:
-    #FILTERS = [".jpg", ".gif", ".png", ".css"]
+    #    FILTERS = [".jpg", ".gif", ".png", ".css"]
     FILTERS = []
     NAME = ""
     STORAGE_FILE_DIR = ""
@@ -14,68 +15,76 @@ class ExtensionInstance:
     URL_PARSED_OBJECT = ""
     PRIORITY_LEVEL = 0
 
-    def __init__(self, targetUrl, filters, threads, priorityLevel):
+    def __init__(self, target_url, filters, threads, priority_level):
         try:
-            self.setTarget(targetUrl)
-            self.setName(targetUrl)
-            self.createStorageFileDir()
-            self.setFilters(filters)
-            self.createCurrentUrl()
-            self.setThreads(threads)
-            self.setPriorityLevel(priorityLevel)
+            self.set_target(target_url)
+            self.set_name(target_url)
+            self.create_storage_file_dir()
+            self.set_filters(filters)
+            self.create_current_url()
+            self.set_threads(threads)
+            self.set_priority_level(priority_level)
         except Exception as error:
-            myLogger.error(f'[{ __name__ }]: Not able to create new extension instance: "{error}"')
-
+            my_logger.error(f'[{ __name__ }]: Not able to create new extension instance: "{error}"')
 
     def __repr__(self):
         try:
-            return(f'[{self.getName()}][URL]:{self.getTarget()}')
+            return f'[{self.get_name()}][URL]:{self.get_target()}'
         except Exception as error:
-            myLogger.error(f'[{ __name__ }]: Not able to print extension instance: "{error}"')
+            my_logger.error(f'[{ __name__ }]: Not able to print extension instance: "{error}"')
 
 # BELOW THIS ARE JUST SETTERS, GETTERS AND CREATES FOR DATA FOR THE EXTENSION IT SELF
 
-    def setPriorityLevel(self, priorityLevel):
-        self.PRIORITY_LEVEL = priorityLevel
+    def set_priority_level(self, priority_level):
+        self.PRIORITY_LEVEL = priority_level
 
-    def getPriorityLevel(self):
+    def get_priority_level(self):
         return self.PRIORITY_LEVEL
 
-    def setFilters(self, filters):
+    def set_filters(self, filters):
         self.FILTERS = filters
 
-    def setTarget(self, targetURL):
+    def set_target(self, targetURL):
         self.TARGET = targetURL
 
-    def getTarget(self):
+    def get_target(self):
         return self.TARGET
 
-    def createStorageFileDir(self):
+    def create_storage_file_dir(self):
         self.STORAGE_FILE_DIR = f'./stored_trees/{self.NAME}'
 
-    def setStorageFileDir(self, fileDirectory):
-        self.STORAGE_FILE_DIR = fileDirectory
+    def set_storage_file_dir(self, file_directory):
+        self.STORAGE_FILE_DIR = file_directory
 
-    def getStorageFileDir(self):
+    def get_storage_file_dir(self):
         return self.STORAGE_FILE_DIR
 
-    def setName(self, targetUrl):
-        self.NAME = re.search("^(?:http.?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)", self.TARGET)[1]
+    def set_name(self, target_url):
+        try:
+            self.NAME = re.search("^(?:http.?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)", target_url)[1]
+        except Exception as error:
+            my_logger.error(f'[{__name__}]: set_name caught error: "{error}"')
 
-    def getName(self):
+    def get_name(self):
         return self.NAME
 
-    def createCurrentUrl(self):
-        self.URL_PARSED_OBJECT = urlparse(self.TARGET)
+    def create_current_url(self):
+        try:
+            self.URL_PARSED_OBJECT = urlparse(self.TARGET)
+        except Exception as error:
+            my_logger.error(f'[{__name__}]: create_current_url caught error: "{error}"')
 
-    def setCurrentUrl(self):
-        self.URL_PARSED_OBJECT = urlparse(self.TARGET)
+    def set_current_url(self):
+        try:
+            self.URL_PARSED_OBJECT = urlparse(self.TARGET)
+        except Exception as error:
+            my_logger.error(f'[{__name__}]: create_current_url caught error: "{error}"')
 
-    def getCurrentUrl(self):
+    def get_current_url(self):
         return self.URL_PARSED_OBJECT
 
-    def setThreads(self, threads):
+    def set_threads(self, threads):
         self.THREADS = threads
 
-    def getThreads(self):
+    def get_threads(self):
         return self.THREADS
