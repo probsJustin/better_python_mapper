@@ -9,6 +9,7 @@ Features:
 
 
 Todo:  
+- add inclusive filter for targetFile
 - batch processing based on priority level
 - recursive web mapper crawling 
 - saved request -> response relationships
