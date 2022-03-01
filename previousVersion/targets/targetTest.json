@@ -1,6 +1,6 @@
 {
   "www.example.com":{
-    "FULL_TARGET_URL" : "https://www.example.com",
+    "FULL_TARGET_URL" : "www.example.com",
     "FILTERS" : "['.photosOfYourMom']",
     "THREADS" : 1,
     "PRIORITY_LEVEL" : 0

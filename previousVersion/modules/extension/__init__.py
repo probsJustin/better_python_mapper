@@ -1,6 +1,6 @@
 import re
 from urllib.parse import urlparse
-import modules.my_logger as my_logger
+import previousVersion.modules.my_logger as my_logger
 import json
 
 my_logger.config_file("./logs/creating_new_extension_instance.log", "debug")

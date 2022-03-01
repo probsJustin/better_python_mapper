@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup as bs
 import requests
 import json
 from os.path import exists
-import modules.my_logger as my_logger
+import previousVersion.modules.my_logger as my_logger
 import validators
 
 '''
