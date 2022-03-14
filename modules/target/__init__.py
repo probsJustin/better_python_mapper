@@ -6,8 +6,17 @@ from bs4 import BeautifulSoup as bs
 import requests
 import json
 
+import contextlib
+import os
+import queue
+import requests
+import sys
+import threading
+import time
+
 
 my_logger.config_file("./logs/creating_new_extension_instance.log", "debug")
+
 
 
 class Target:
@@ -22,7 +31,8 @@ class Target:
     PRIORITY_LEVEL = 0
     TASK_STATUS = ""
     TASK_STATUS_LIST = ['COMPLETE', 'STARTED', 'STOPPED', 'STUCK', 'WAITING', 'STARTING', 'STOPPING', 'MARKED_FOR_CLEANUP']
-
+    answers = queue.Queue()
+    web_paths = queue.Queue()
 
 
     def __init__(self, target_object, filters, threads, priority_level):
@@ -63,10 +73,35 @@ class Target:
             my_logger.error(f'[{__name__}]: validate_url caught error: "{error}"')
             return False
 
+    def worker_method(self):
+        while not self.web_paths.empty():
+            path = self.web_paths.get()
+            url = self.TARGET
+            time.sleep(2)
+            r = requests.get(url)
+            if r.status_code == 200:
+                self.answers.put(url)
+                sys.stdout.write('+')
+            else:
+                sys.stdout.write('x')
+            sys.stdout.flush()
+
     def thread_run(self):
     # this will run its self and then store it in a storeage file
         self.set_task_status("STARTING")
+
         self.set_task_status("STARTED")
+
+        target_instance_thread = list()
+        for i in range(self.THREADS):
+            print(f'Spawning thread {i}')
+            t = threading.Thread(target=self.worker_method)
+            target_instance_thread.append(t)
+            t.start()
+
+        for thread in target_instance_thread:
+            thread.join()
+
         self.set_task_status("STOPPING")
         self.set_task_status("STOPPED")
         self.set_task_status("COMPLETE")
